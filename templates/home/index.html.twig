@@ -1,0 +1,881 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CapShop — Street Market for Caps{% endblock %}
+
+{% block body %}
+
+{# ── SVG symbol library for cap silhouettes ── #}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cap-snap" viewBox="0 0 200 130">
+      <path d="M20 92 C 22 50, 60 18, 100 18 C 140 18, 178 50, 180 92 L 175 96 L 25 96 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M18 92 L 196 92 L 196 110 L 18 110 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100 26 L 100 90" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="3 4"/>
+      <circle cx="100" cy="28" r="3" fill="#0D0D0D"/>
+    </symbol>
+    <symbol id="cap-fit" viewBox="0 0 200 130">
+      <path d="M28 88 C 30 48, 64 18, 100 18 C 136 18, 170 48, 172 88 L 168 92 L 32 92 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M14 96 C 50 84, 150 84, 186 96 L 186 108 C 150 100, 50 100, 14 108 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="100" cy="28" r="3" fill="#0D0D0D"/>
+    </symbol>
+    <symbol id="cap-dad" viewBox="0 0 200 130">
+      <path d="M30 90 C 34 52, 66 24, 100 24 C 134 24, 166 52, 170 90 L 168 94 L 32 94 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M20 96 C 56 86, 144 86, 180 96 L 180 106 C 144 96, 56 96, 20 106 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M58 78 H 142" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="4 4"/>
+    </symbol>
+    <symbol id="cap-trk" viewBox="0 0 200 130">
+      <path d="M22 90 C 26 50, 62 20, 100 20 C 138 20, 174 50, 178 90 L 174 94 L 26 94 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M18 94 L 182 94 L 182 110 L 18 110 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <g stroke="#0D0D0D" stroke-width="1.6" opacity="0.7">
+        <line x1="100" y1="32" x2="100" y2="90"/>
+        <line x1="120" y1="34" x2="120" y2="90"/>
+        <line x1="140" y1="44" x2="140" y2="90"/>
+        <line x1="80" y1="34" x2="80" y2="90"/>
+        <line x1="60" y1="44" x2="60" y2="90"/>
+        <line x1="35" y1="62" x2="170" y2="62"/>
+        <line x1="35" y1="78" x2="170" y2="78"/>
+      </g>
+    </symbol>
+    <symbol id="cap-buc" viewBox="0 0 200 140">
+      <path d="M40 36 H 160 V 76 H 40 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M16 76 C 50 70, 150 70, 184 76 L 178 104 C 150 100, 50 100, 22 104 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <line x1="40" y1="56" x2="160" y2="56" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="3 4"/>
+    </symbol>
+    <symbol id="cap-5p" viewBox="0 0 200 130">
+      <path d="M24 88 C 26 50, 60 22, 100 22 C 140 22, 174 50, 176 88 L 172 92 L 28 92 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M14 96 C 50 84, 150 84, 186 96 L 186 108 C 150 98, 50 98, 14 108 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <g stroke="#0D0D0D" stroke-width="2" fill="none">
+        <line x1="62" y1="34" x2="62" y2="92"/>
+        <line x1="138" y1="34" x2="138" y2="92"/>
+        <line x1="100" y1="22" x2="100" y2="92"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+{# ── Announcement bar ── #}
+<div class="announce" aria-label="Annonces">
+  <div class="announce__track">
+    <span>
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">DROP HORS-SÉRIE ATELIER MARSEILLE · J−02</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CLICK &amp; COLLECT PARIS · LYON · BORDEAUX</em>
+      <em class="announce__dot"></em>
+    </span>
+    <span aria-hidden="true">
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">DROP HORS-SÉRIE ATELIER MARSEILLE · J−02</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CLICK &amp; COLLECT PARIS · LYON · BORDEAUX</em>
+      <em class="announce__dot"></em>
+    </span>
+  </div>
+</div>
+
+{# ── Navigation ── #}
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="#" class="logo">
+      <span class="logo__dot"></span>
+      CAP·SHOP
+    </a>
+    <div class="nav__links">
+      <a href="#drops" class="active">Drops</a>
+      <a href="#cats">Catégories</a>
+      <a href="#best">Bestsellers</a>
+      <a href="#collab">Collabs</a>
+      <a href="#custom">Custom</a>
+      <a href="#look">Lookbook</a>
+    </div>
+    <div class="nav__right">
+      <div class="search">
+        <span aria-hidden="true">⌕</span>
+        <input placeholder="Cherche une casquette…" />
+        <span style="opacity:.5">⌘K</span>
+      </div>
+      <button class="icon-btn" aria-label="Compte">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c0-4 3.5-6.5 7.5-6.5s7.5 2.5 7.5 6.5"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" aria-label="Panier">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 7h14l-1.5 11.5a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge" id="cartBadge">3</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+{# ── Hero ── #}
+<header class="hero">
+  <div class="hero__inner">
+    <div>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:18px;">
+        <span class="mono" style="background:var(--ink); color:var(--yellow); padding:4px 10px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; border:var(--border);">SS·26 / DROP №14</span>
+        <span class="mono" style="background:var(--coral); color:var(--ink); padding:4px 10px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; border:var(--border); box-shadow:var(--shadow-sm);">LIMITED · 250 PCS</span>
+      </div>
+      <h1>
+        Couvre<br/>
+        <span class="hl">ta tête,</span><br/>
+        pas tes <span class="ink-bg">vibes.</span>
+      </h1>
+      <p class="hero__sub">
+        Casquettes triées à la main · marques cultes, drops indé, et notre atelier broderie maison.
+        Du snapback au bucket — un seul endroit, mille caractères.
+      </p>
+      <div class="hero__cta-row">
+        <a href="#drops" class="btn btn--klein">Voir le drop · €0 livraison →</a>
+        <a href="#custom" class="btn btn--ghost">Personnaliser ma casquette</a>
+      </div>
+      <div class="hero__meta">
+        <div><b>4.9/5</b> · 12 800 avis</div>
+        <div><b>24H</b> · expédition Paris</div>
+        <div><b>+340</b> · modèles dispo</div>
+      </div>
+    </div>
+
+    <div class="hero__stage" aria-label="Drop de la saison">
+      <div class="stage-card r1" style="color:var(--klein);">
+        <span class="stage-tag">SNAPBACK · NEW</span>
+        <svg class="cap-svg"><use href="#cap-snap"/></svg>
+        <span class="stage-price">39€</span>
+      </div>
+      <div class="stage-card r2" style="color:var(--ink);">
+        <span class="stage-tag">FITTED 7⅜</span>
+        <svg class="cap-svg"><use href="#cap-fit"/></svg>
+        <span class="stage-price">45€</span>
+      </div>
+      <div class="stage-card r3" style="color:var(--coral);">
+        <span class="stage-tag">DAD CAP · WASHED</span>
+        <svg class="cap-svg"><use href="#cap-dad"/></svg>
+        <span class="stage-price">32€</span>
+      </div>
+      <div class="stage-card r4" style="color:var(--klein);">
+        <span class="stage-tag">TRUCKER · MESH</span>
+        <svg class="cap-svg"><use href="#cap-trk"/></svg>
+        <span class="stage-price">29€</span>
+      </div>
+      <div class="hero__sticker hero__sticker--bl">
+        <div>▶<br/>PLAY<br/>DROP—14</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{# ── Filter pills marquee ── #}
+<section class="pills" aria-label="Filtres rapides">
+  <div class="pills__track">
+    <button class="pill" data-active="true"><span class="pill__dot"></span>NOUVEAUTÉS</button>
+    <button class="pill">SNAPBACK</button>
+    <button class="pill">FITTED</button>
+    <button class="pill">DAD CAP</button>
+    <button class="pill">TRUCKER</button>
+    <button class="pill">BUCKET HAT</button>
+    <button class="pill">5-PANEL</button>
+    <button class="pill">−50€</button>
+    <button class="pill">EDITION LIMITÉE</button>
+    <button class="pill">RUPTURE BIENTÔT</button>
+    <button class="pill">COLLABS</button>
+    <button class="pill">VINTAGE</button>
+    <button class="pill" aria-hidden="true"><span class="pill__dot"></span>NOUVEAUTÉS</button>
+    <button class="pill" aria-hidden="true">SNAPBACK</button>
+    <button class="pill" aria-hidden="true">FITTED</button>
+    <button class="pill" aria-hidden="true">DAD CAP</button>
+    <button class="pill" aria-hidden="true">TRUCKER</button>
+    <button class="pill" aria-hidden="true">BUCKET HAT</button>
+    <button class="pill" aria-hidden="true">5-PANEL</button>
+    <button class="pill" aria-hidden="true">−50€</button>
+    <button class="pill" aria-hidden="true">EDITION LIMITÉE</button>
+    <button class="pill" aria-hidden="true">RUPTURE BIENTÔT</button>
+    <button class="pill" aria-hidden="true">COLLABS</button>
+    <button class="pill" aria-hidden="true">VINTAGE</button>
+  </div>
+</section>
+
+{# ── Drops récents ── #}
+<section class="section" id="drops">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">★ Drops récents</span>
+        <h2 class="sec-title">Frais sortis<br/>de <span class="accent-y">l'atelier.</span></h2>
+      </div>
+      <a href="#" class="btn btn--ghost">Tout voir · 18 modèles →</a>
+    </div>
+
+    <div class="drops">
+      <article class="drop">
+        <span class="drop__badge drop__badge--coral">NEW DROP</span>
+        <span class="drop__date mono">26·05·26</span>
+        <div class="drop__img" style="color:var(--klein);">
+          <svg class="cap-svg" style="width:70%;"><use href="#cap-snap"/></svg>
+        </div>
+        <div class="drop__foot">
+          <div>
+            <div class="drop__title">Bleu Cobalt 6-Panel</div>
+            <div class="drop__sub">CapShop Studio · Snapback</div>
+          </div>
+          <div class="drop__price">49€</div>
+        </div>
+      </article>
+
+      <article class="drop">
+        <span class="drop__badge drop__badge--klein">NEW</span>
+        <span class="drop__date mono">24·05·26</span>
+        <div class="drop__img" style="color:var(--ink);">
+          <svg class="cap-svg" style="width:70%;"><use href="#cap-fit"/></svg>
+        </div>
+        <div class="drop__foot">
+          <div>
+            <div class="drop__title">Encre Fitted Pro</div>
+            <div class="drop__sub">Atelier Marseille</div>
+          </div>
+          <div class="drop__price">42€</div>
+        </div>
+      </article>
+
+      <article class="drop">
+        <span class="drop__badge">JUST IN</span>
+        <span class="drop__date mono">22·05·26</span>
+        <div class="drop__img" style="color:var(--green);">
+          <svg class="cap-svg" style="width:70%;"><use href="#cap-dad"/></svg>
+        </div>
+        <div class="drop__foot">
+          <div>
+            <div class="drop__title">Mousse Dad-Cap</div>
+            <div class="drop__sub">Washed cotton · unisex</div>
+          </div>
+          <div class="drop__price">29€</div>
+        </div>
+      </article>
+
+      <article class="drop">
+        <span class="drop__badge drop__badge--klein">NEW</span>
+        <span class="drop__date mono">20·05·26</span>
+        <div class="drop__img" style="color:var(--klein);">
+          <svg class="cap-svg" style="width:70%;"><use href="#cap-trk"/></svg>
+        </div>
+        <div class="drop__foot">
+          <div>
+            <div class="drop__title">Trucker Lilac Mesh</div>
+            <div class="drop__sub">Snap-back ajustable</div>
+          </div>
+          <div class="drop__price">34€</div>
+        </div>
+      </article>
+
+      <article class="drop">
+        <span class="drop__badge drop__badge--coral">+ STOCK BAS</span>
+        <span class="drop__date mono">18·05·26</span>
+        <div class="drop__img" style="color:var(--coral);">
+          <svg class="cap-svg" style="width:70%;"><use href="#cap-buc"/></svg>
+        </div>
+        <div class="drop__foot">
+          <div>
+            <div class="drop__title">Bucket Coral Wave</div>
+            <div class="drop__sub">Reversible · 100% coton</div>
+          </div>
+          <div class="drop__price">38€</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ── Catégories ── #}
+<section class="section section--alt" id="cats">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">⌗ Catégories</span>
+        <h2 class="sec-title">Chaque tête<br/>a <span class="accent">son style.</span></h2>
+      </div>
+      <p class="mono" style="max-width:340px; font-size:12px; text-transform:uppercase; opacity:.7;">Navigation rapide · clique le type pour filtrer le catalogue complet.</p>
+    </div>
+
+    <div class="cats">
+      <a href="#" class="cat">
+        <span class="cat__count">142 modèles</span>
+        <div class="cat__icon" style="color:var(--klein);">
+          <svg style="width:80%; max-width:160px;"><use href="#cap-snap"/></svg>
+        </div>
+        <div class="cat__name">Snapback</div>
+      </a>
+      <a href="#" class="cat">
+        <span class="cat__count">88 modèles</span>
+        <div class="cat__icon" style="color:var(--ink);">
+          <svg style="width:80%; max-width:160px;"><use href="#cap-fit"/></svg>
+        </div>
+        <div class="cat__name">Fitted</div>
+      </a>
+      <a href="#" class="cat">
+        <span class="cat__count">66 modèles</span>
+        <div class="cat__icon" style="color:var(--coral);">
+          <svg style="width:80%; max-width:160px;"><use href="#cap-dad"/></svg>
+        </div>
+        <div class="cat__name">Dad Cap</div>
+      </a>
+      <a href="#" class="cat">
+        <span class="cat__count">52 modèles</span>
+        <div class="cat__icon" style="color:var(--green);">
+          <svg style="width:80%; max-width:160px;"><use href="#cap-trk"/></svg>
+        </div>
+        <div class="cat__name">Trucker</div>
+      </a>
+      <a href="#" class="cat">
+        <span class="cat__count">40 modèles</span>
+        <div class="cat__icon" style="color:var(--klein);">
+          <svg style="width:80%; max-width:160px;"><use href="#cap-buc"/></svg>
+        </div>
+        <div class="cat__name">Bucket</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{# ── Bestsellers ── #}
+<section class="section" id="best">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">🔥 Bestsellers</span>
+        <h2 class="sec-title">Ce que tout<br/>le monde <span class="accent-c">porte.</span></h2>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn--ghost" style="padding:8px 14px; font-size:11px;">‹ Précédent</button>
+        <button class="btn btn--yellow" style="padding:8px 14px; font-size:11px;">Suivant ›</button>
+      </div>
+    </div>
+
+    <div class="bestsellers">
+      <article class="product">
+        <div class="product__top">
+          <div class="product__bg" style="background:var(--pastel-blue); color:var(--klein);">
+            <svg class="product__img"><use href="#cap-snap"/></svg>
+          </div>
+          <span class="product__heat">🔥 +482 vendus</span>
+        </div>
+        <div class="product__meta">
+          <div>
+            <div class="product__name">Klein Hit Snapback</div>
+            <div class="product__brand">CapShop Studio</div>
+          </div>
+          <div class="product__price">39€</div>
+        </div>
+        <button class="product__add" data-add>Ajouter au panier +</button>
+      </article>
+
+      <article class="product">
+        <div class="product__top">
+          <div class="product__bg" style="background:var(--pastel-red); color:var(--coral);">
+            <svg class="product__img"><use href="#cap-fit"/></svg>
+          </div>
+          <span class="product__heat">🔥 +318 vendus</span>
+        </div>
+        <div class="product__meta">
+          <div>
+            <div class="product__name">Coral Run Fitted</div>
+            <div class="product__brand">Atelier 47</div>
+          </div>
+          <div class="product__price">42€</div>
+        </div>
+        <button class="product__add" data-add>Ajouter au panier +</button>
+      </article>
+
+      <article class="product">
+        <div class="product__top">
+          <div class="product__bg" style="background:var(--pastel-green); color:var(--green);">
+            <svg class="product__img"><use href="#cap-dad"/></svg>
+          </div>
+          <span class="product__heat">🔥 +267 vendus</span>
+        </div>
+        <div class="product__meta">
+          <div>
+            <div class="product__name">Sauge Washed Dad</div>
+            <div class="product__brand">Maison Flex</div>
+          </div>
+          <div class="product__price">29€</div>
+        </div>
+        <button class="product__add" data-add>Ajouter au panier +</button>
+      </article>
+
+      <article class="product">
+        <div class="product__top">
+          <div class="product__bg" style="background:var(--pastel-yellow); color:var(--ink);">
+            <svg class="product__img"><use href="#cap-buc"/></svg>
+          </div>
+          <span class="product__heat">🔥 +201 vendus</span>
+        </div>
+        <div class="product__meta">
+          <div>
+            <div class="product__name">Soleil Bucket Hat</div>
+            <div class="product__brand">Plage·Co</div>
+          </div>
+          <div class="product__price">35€</div>
+        </div>
+        <button class="product__add" data-add>Ajouter au panier +</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ── Brands strip ── #}
+<section class="brands" aria-label="Marques partenaires">
+  <div class="brands__track">
+    <span class="brand-logo">NEW·ERA <span class="star">★</span></span>
+    <span class="brand-logo">47·BRAND <span class="star">★</span></span>
+    <span class="brand-logo">FLEXFIT <span class="star">★</span></span>
+    <span class="brand-logo">MITCHELL&amp;NESS <span class="star">★</span></span>
+    <span class="brand-logo">STUSSY <span class="star">★</span></span>
+    <span class="brand-logo">CARHARTT·WIP <span class="star">★</span></span>
+    <span class="brand-logo">PATTA <span class="star">★</span></span>
+    <span class="brand-logo">'47 <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">NEW·ERA <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">47·BRAND <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">FLEXFIT <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">MITCHELL&amp;NESS <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">STUSSY <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">CARHARTT·WIP <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">PATTA <span class="star">★</span></span>
+    <span class="brand-logo" aria-hidden="true">'47 <span class="star">★</span></span>
+  </div>
+</section>
+
+{# ── Collab feature ── #}
+<section class="collab" id="collab">
+  <div class="collab__inner">
+    <div>
+      <span class="collab__eye">▶ Collab exclusive · 250 pièces</span>
+      <h2>
+        Atelier<br/>
+        Marseille<br/>
+        <em>×</em> CapShop
+      </h2>
+      <p>
+        Trois pièces brodées main par l'Atelier Marseille — coton organique, finition contraste, étiquette numérotée.
+        Drop le 28 mai à 18h00. Once they're gone, they're gone.
+      </p>
+      <div class="countdown" id="cd">
+        <div class="cd-cell"><div class="cd-num" data-cd="d">02</div><div class="cd-lab">JOURS</div></div>
+        <div class="cd-cell"><div class="cd-num" data-cd="h">14</div><div class="cd-lab">HEURES</div></div>
+        <div class="cd-cell"><div class="cd-num" data-cd="m">38</div><div class="cd-lab">MIN</div></div>
+        <div class="cd-cell"><div class="cd-num" data-cd="s">21</div><div class="cd-lab">SEC</div></div>
+      </div>
+      <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="#" class="btn btn--yellow">M'inscrire au drop →</a>
+        <a href="#" class="btn btn--ghost" style="background:transparent; color:#fff; border-color:#fff;">Voir les pièces</a>
+      </div>
+    </div>
+
+    <div class="collab__stage" style="color:var(--ink);">
+      <div class="collab__sticker">2 JOURS<br/>RESTANTS</div>
+      <svg style="width:65%; max-width:380px; color:var(--ink);"><use href="#cap-fit"/></svg>
+    </div>
+  </div>
+</section>
+
+{# ── Personnalisation ── #}
+<section class="section section--alt" id="custom">
+  <div class="container">
+    <div class="sec-head" style="margin-bottom:44px;">
+      <div>
+        <span class="sec-eyebrow">✎ Personnalisation</span>
+        <h2 class="sec-title">Broderie<br/>maison · <span class="accent">48h.</span></h2>
+      </div>
+      <p class="mono" style="max-width:360px; font-size:12px; text-transform:uppercase; opacity:.7;">Initiales, motif, patch, lettering : on coud, on flock, on livre.</p>
+    </div>
+
+    <div class="custom">
+      <div class="custom__visual">
+        <div class="custom__split" style="background:var(--pastel-green); color:var(--ink);">
+          <span class="custom__label">AVANT</span>
+          <svg style="width:70%; max-width:240px;"><use href="#cap-dad"/></svg>
+        </div>
+        <div class="custom__split" style="color:var(--klein);">
+          <span class="custom__label">APRÈS · brodé main</span>
+          <svg style="width:70%; max-width:240px;"><use href="#cap-dad"/></svg>
+          <div style="position:absolute; top:45%; left:36%; width:64px; height:36px; background:var(--coral); border:var(--border-thick); display:flex; align-items:center; justify-content:center; font-family:'Archivo Black',sans-serif; font-size:11px; color:var(--ink); transform:rotate(-4deg); box-shadow:var(--shadow-sm);">M·D</div>
+        </div>
+      </div>
+
+      <div>
+        <ol style="list-style:none; display:flex; flex-direction:column; gap:16px;">
+          <li style="display:flex; gap:14px;">
+            <span style="background:var(--klein); color:#fff; border:var(--border-thick); width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-family:'Archivo Black',sans-serif; flex-shrink:0;">1</span>
+            <div>
+              <b style="font-family:'Archivo Black',sans-serif; font-size:16px; text-transform:uppercase;">Choisis ta base</b>
+              <p style="font-size:14px; line-height:1.45; margin-top:4px;">Snapback, dad-cap, fitted — 22 couleurs, 6 textiles.</p>
+            </div>
+          </li>
+          <li style="display:flex; gap:14px;">
+            <span style="background:var(--coral); color:var(--ink); border:var(--border-thick); width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-family:'Archivo Black',sans-serif; flex-shrink:0;">2</span>
+            <div>
+              <b style="font-family:'Archivo Black',sans-serif; font-size:16px; text-transform:uppercase;">Compose ton motif</b>
+              <p style="font-size:14px; line-height:1.45; margin-top:4px;">Texte, monogramme, patch, flock ou broderie 3D.</p>
+            </div>
+          </li>
+          <li style="display:flex; gap:14px;">
+            <span style="background:var(--yellow); color:var(--ink); border:var(--border-thick); width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-family:'Archivo Black',sans-serif; flex-shrink:0;">3</span>
+            <div>
+              <b style="font-family:'Archivo Black',sans-serif; font-size:16px; text-transform:uppercase;">Livraison 48h</b>
+              <p style="font-size:14px; line-height:1.45; margin-top:4px;">Atelier Marseille — chaque pièce vérifiée à la main.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="custom__pal" aria-label="Choix coloris">
+          <span class="swatch" style="background:var(--klein);"></span>
+          <span class="swatch" style="background:var(--coral);"></span>
+          <span class="swatch" style="background:var(--yellow);"></span>
+          <span class="swatch" style="background:var(--green);"></span>
+          <span class="swatch" style="background:var(--ink);"></span>
+          <span class="swatch" style="background:var(--bg); border:var(--border-thick);"></span>
+        </div>
+
+        <a href="#" class="btn btn--klein" style="margin-top:24px;">Lancer le configurateur →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Avis ── #}
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">★ 12 800 avis vérifiés</span>
+        <h2 class="sec-title">Ils ont déjà<br/>la <span class="accent-y">tête bien.</span></h2>
+      </div>
+      <div class="mono" style="text-align:right;">
+        <div style="font-family:'Archivo Black',sans-serif; font-size:48px; line-height:1;">4.9<span style="font-size:22px; opacity:.5;">/5</span></div>
+        <div style="font-size:11px; text-transform:uppercase; opacity:.7; margin-top:6px;">Note moyenne · Avis vérifiés</div>
+      </div>
+    </div>
+
+    <div class="reviews">
+      <article class="review">
+        <div class="review__stars">★★★★★</div>
+        <p class="review__quote">"Reçue en 24h, broderie nickel. La couleur en photo est exactement celle reçue. Je commande déjà la deuxième."</p>
+        <div class="review__foot">
+          <div class="review__avatar" style="background:var(--pastel-blue);">L</div>
+          <div>
+            <b style="font-family:'Archivo Black',sans-serif; text-transform:uppercase;">Léo M.</b>
+            <div style="opacity:.7;">Marseille</div>
+          </div>
+          <span class="review__verify">✓ ACHAT</span>
+        </div>
+      </article>
+
+      <article class="review">
+        <div class="review__stars">★★★★★</div>
+        <p class="review__quote">"Drop limité reçu numéroté à la main, packaging soigné. On sent que c'est fait avec sérieux. Ça change."</p>
+        <div class="review__foot">
+          <div class="review__avatar" style="background:var(--pastel-red);">A</div>
+          <div>
+            <b style="font-family:'Archivo Black',sans-serif; text-transform:uppercase;">Amir K.</b>
+            <div style="opacity:.7;">Lyon</div>
+          </div>
+          <span class="review__verify">✓ ACHAT</span>
+        </div>
+      </article>
+
+      <article class="review">
+        <div class="review__stars">★★★★☆</div>
+        <p class="review__quote">"Configurateur facile, j'ai eu mes initiales brodées en deux jours. Une étoile en moins parce que j'en voulais plus."</p>
+        <div class="review__foot">
+          <div class="review__avatar" style="background:var(--pastel-green);">S</div>
+          <div>
+            <b style="font-family:'Archivo Black',sans-serif; text-transform:uppercase;">Sofia D.</b>
+            <div style="opacity:.7;">Bordeaux</div>
+          </div>
+          <span class="review__verify">✓ ACHAT</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+{# ── Garanties ── #}
+<section class="guarantees" aria-label="Garanties">
+  <div class="guarantees__inner">
+    <div class="guarantee">
+      <div class="g-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><path d="M3 16V6h13v10"/><path d="M16 9h4l1 3v4h-5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+      </div>
+      <div><b>Livraison 24h</b><small>Paris · Lyon · partout en 48h</small></div>
+    </div>
+    <div class="guarantee">
+      <div class="g-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><path d="M4 12a8 8 0 1 1 3 6"/><path d="M4 18v-5h5"/></svg>
+      </div>
+      <div><b>Retours gratuits</b><small>30 jours · sans questions</small></div>
+    </div>
+    <div class="guarantee">
+      <div class="g-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><rect x="4" y="6" width="16" height="11" rx="1"/><path d="M4 10h16M8 14h3"/></svg>
+      </div>
+      <div><b>Paiement sécurisé</b><small>CB · Apple Pay · 3× sans frais</small></div>
+    </div>
+    <div class="guarantee">
+      <div class="g-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><path d="M4 10l8-6 8 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><rect x="9" y="13" width="6" height="7"/></svg>
+      </div>
+      <div><b>Click &amp; Collect</b><small>3 boutiques · 30 min après commande</small></div>
+    </div>
+  </div>
+</section>
+
+{# ── Lookbook ── #}
+<section class="section" id="look">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">⊞ Lookbook · #portéavecstyle</span>
+        <h2 class="sec-title">Vu dans <span class="accent">la rue.</span></h2>
+      </div>
+      <a href="#" class="btn btn--coral">Voir Instagram · @capshop →</a>
+    </div>
+
+    <div class="lookbook">
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--coral);"><svg style="width:50%;"><use href="#cap-snap"/></svg></div>
+        <span class="look__handle">@melissa.k</span>
+        <span class="look__tag">Klein Hit Snapback · 39€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--ink);"><svg style="width:60%;"><use href="#cap-fit"/></svg></div>
+        <span class="look__handle">@yann.d</span>
+        <span class="look__tag">Coral Run Fitted · 42€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--green);"><svg style="width:80%;"><use href="#cap-dad"/></svg></div>
+        <span class="look__handle">@noa</span>
+        <span class="look__tag">Sauge Dad · 29€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--klein);"><svg style="width:80%;"><use href="#cap-buc"/></svg></div>
+        <span class="look__handle">@ali.r</span>
+        <span class="look__tag">Bucket Lilas · 35€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--coral);"><svg style="width:50%;"><use href="#cap-trk"/></svg></div>
+        <span class="look__handle">@studio.j</span>
+        <span class="look__tag">Trucker Peach · 34€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--klein);"><svg style="width:70%;"><use href="#cap-5p"/></svg></div>
+        <span class="look__handle">@kim.l</span>
+        <span class="look__tag">5-Panel Cobalt · 36€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--ink);"><svg style="width:50%;"><use href="#cap-snap"/></svg></div>
+        <span class="look__handle">@romy</span>
+        <span class="look__tag">Ink Snap · 36€</span>
+      </a>
+      <a href="#" class="look">
+        <div class="look__inner" style="color:var(--coral);"><svg style="width:80%;"><use href="#cap-buc"/></svg></div>
+        <span class="look__handle">@elias.t</span>
+        <span class="look__tag">Bucket Soleil · 38€</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{# ── FAQ ── #}
+<section class="section section--alt">
+  <div class="container">
+    <div class="sec-head" style="justify-content:center; text-align:center;">
+      <div>
+        <span class="sec-eyebrow">? FAQ</span>
+        <h2 class="sec-title">On a déjà <span class="accent-c">la réponse.</span></h2>
+      </div>
+    </div>
+
+    <div class="faq">
+      <div class="faq__item">
+        <button class="faq__q">Comment choisir ma taille de fitted ?<span class="faq__plus">+</span></button>
+        <div class="faq__a">Mesure ton tour de tête au-dessus des oreilles (cm) puis utilise notre guide : 56 cm = 7, 57.7 cm = 7⅛, 58.7 cm = 7¼. Tu peux aussi commander deux tailles et nous renvoyer celle qui ne va pas — retour gratuit 30 jours.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Combien de temps pour la broderie custom ?<span class="faq__plus">+</span></button>
+        <div class="faq__a">Notre atelier livre les pièces personnalisées sous 48h ouvrées. Pour les commandes complexes (broderie 3D, gros logos), compter 72h. La date estimée s'affiche dans le configurateur avant validation.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Les casquettes sont-elles lavables ?<span class="faq__plus">+</span></button>
+        <div class="faq__a">Oui. Lavage à la main, eau froide, savon doux, séchage à plat. Évite la machine et le sèche-linge qui déforment la visière. Pour les pièces brodées : nettoyage à sec recommandé après 2-3 lavages.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Vous livrez en Belgique, Suisse, Canada ?<span class="faq__plus">+</span></button>
+        <div class="faq__a">Oui — Europe en 2-3 jours (gratuit dès 80€), Suisse en 3-4 jours, Canada en 5-7 jours via Colissimo International. Les frais s'affichent au panier en fonction du poids.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Comment fonctionnent les drops limités ?<span class="faq__plus">+</span></button>
+        <div class="faq__a">Inscription à la newsletter ou notification dans l'app. Le drop ouvre à l'heure annoncée, premier arrivé, premier servi. Les pièces non payées dans les 10 min retournent en stock.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Programme Club Cap ── #}
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">⬢ Programme Club Cap</span>
+        <h2 class="sec-title">Plus tu portes,<br/>plus tu <span class="accent-y">gagnes.</span></h2>
+      </div>
+      <p class="mono" style="max-width:340px; font-size:12px; text-transform:uppercase; opacity:.7;">1€ dépensé = 1 point. Cumule, débloque, profite.</p>
+    </div>
+
+    <div class="loyalty">
+      <div class="tier">
+        <div class="tier__head">
+          <div class="tier__name">Bronze</div>
+          <div class="tier__lab">0—199 PTS</div>
+        </div>
+        <div class="tier__cost">Offert à l'inscription</div>
+        <ul>
+          <li>5% de remise fidélité</li>
+          <li>Accès newsletter drops</li>
+          <li>Livraison gratuite dès 60€</li>
+          <li>Bon anniversaire offert</li>
+        </ul>
+      </div>
+      <div class="tier tier--gold">
+        <div class="tier__head">
+          <div class="tier__name">Gold</div>
+          <div class="tier__lab">200—799 PTS</div>
+        </div>
+        <div class="tier__cost">Dès 200€ d'achats cumulés</div>
+        <ul>
+          <li>10% de remise permanente</li>
+          <li>Accès drops 24h en avance</li>
+          <li>Broderie 2 lettres offerte</li>
+          <li>Bon de 15€ tous les 6 mois</li>
+        </ul>
+      </div>
+      <div class="tier tier--vip">
+        <div class="tier__head">
+          <div class="tier__name">VIP</div>
+          <div class="tier__lab">800+ PTS</div>
+        </div>
+        <div class="tier__cost" style="opacity:.7;">Sur invitation</div>
+        <ul>
+          <li>15% sur tout · toute l'année</li>
+          <li>Pré-accès collabs limitées</li>
+          <li>Service personnalisation prioritaire</li>
+          <li>Invitations événements physiques</li>
+          <li>Concierge stylisme dédié</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Newsletter ── #}
+<section class="newsletter">
+  <div class="news__inner">
+    <div>
+      <h2>Sois le premier sur<br/>les <em>prochains drops.</em></h2>
+      <div class="news__perks">
+        <span>Drops 24h en avance</span>
+        <span>−10% à l'inscription</span>
+        <span>Zéro spam · promis</span>
+      </div>
+    </div>
+    <form class="news__form" id="newsletterForm">
+      <input type="email" placeholder="ton@email.fr" required />
+      <button class="btn btn--klein" type="submit">M'inscrire →</button>
+    </form>
+  </div>
+</section>
+
+{# ── Footer ── #}
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <h3>CAP·SHOP</h3>
+        <p>Street market for caps. Triés à la main depuis 2019 — Paris, Marseille, partout où ça porte bien.</p>
+        <div class="footer__socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="TikTok">TT</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+        </div>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Nouveautés</a></li>
+          <li><a href="#">Bestsellers</a></li>
+          <li><a href="#">Drops limités</a></li>
+          <li><a href="#">Solde · −50€</a></li>
+          <li><a href="#">Cartes cadeaux</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Aide</h4>
+        <ul>
+          <li><a href="#">Guide des tailles</a></li>
+          <li><a href="#">Livraison &amp; retours</a></li>
+          <li><a href="#">Suivre ma commande</a></li>
+          <li><a href="#">Entretien</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>CapShop</h4>
+        <ul>
+          <li><a href="#">Notre histoire</a></li>
+          <li><a href="#">Atelier Marseille</a></li>
+          <li><a href="#">Boutiques physiques</a></li>
+          <li><a href="#">Programme Club Cap</a></li>
+          <li><a href="#">Devenir partenaire</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="#">CGV</a></li>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Confidentialité · RGPD</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Politique de retour</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <div>© 2026 CAP·SHOP SAS — N° SIRET 891·234·567</div>
+      <div style="display:flex; gap:14px; align-items:center;">
+        <select aria-label="Langue">
+          <option>FR — Français</option>
+          <option>EN — English</option>
+          <option>DE — Deutsch</option>
+        </select>
+        <select aria-label="Devise">
+          <option>EUR €</option>
+          <option>USD $</option>
+          <option>GBP £</option>
+          <option>CHF</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{# ── Floating help sticker ── #}
+<button class="float-sticker" id="floatSticker" aria-label="Besoin d'aide ?">
+  <div>BESOIN<br/>D'AIDE ?<br/>→</div>
+</button>
+
+{% endblock %}
