@@ -351,6 +351,28 @@ img { max-width: 100%; display: block; }
 /* cap SVG container */
 .cap-svg { width: 78%; max-width: 280px; }
 
+/* drop card — real product photos */
+.drop-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .25s ease;
+}
+.drop:hover .drop-img { transform: scale(1.05); }
+
+/* bestseller card — photo mode */
+.product__img--photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .25s ease;
+}
+.product:hover .product__img--photo { transform: scale(1.08); }
+
 /* hero stage — real product photos */
 .stage-img {
   position: absolute;

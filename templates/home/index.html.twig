@@ -229,80 +229,30 @@
     </div>
 
     <div class="drops">
-      <article class="drop">
-        <span class="drop__badge drop__badge--coral">NEW DROP</span>
-        <span class="drop__date mono">26·05·26</span>
-        <div class="drop__img" style="color:var(--klein);">
-          <svg class="cap-svg" style="width:70%;"><use href="#cap-snap"/></svg>
-        </div>
-        <div class="drop__foot">
-          <div>
-            <div class="drop__title">Bleu Cobalt 6-Panel</div>
-            <div class="drop__sub">CapShop Studio · Snapback</div>
-          </div>
-          <div class="drop__price">49€</div>
-        </div>
-      </article>
+      {% for product in recentDrops %}
+        <article class="drop">
+          {% if product.badge %}
+            <span class="drop__badge {{ product.badge.cssClass() }}">{{ product.badge.value }}</span>
+          {% endif %}
+          <span class="drop__date mono">{{ product.droppedAt|date('d·m·y') }}</span>
 
-      <article class="drop">
-        <span class="drop__badge drop__badge--klein">NEW</span>
-        <span class="drop__date mono">24·05·26</span>
-        <div class="drop__img" style="color:var(--ink);">
-          <svg class="cap-svg" style="width:70%;"><use href="#cap-fit"/></svg>
-        </div>
-        <div class="drop__foot">
-          <div>
-            <div class="drop__title">Encre Fitted Pro</div>
-            <div class="drop__sub">Atelier Marseille</div>
+          <div class="drop__img">
+            {% if product.imageUrl %}
+              <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="drop-img" />
+            {% else %}
+              <svg class="cap-svg" style="width:70%;"><use href="#{{ product.category.svgId() }}"/></svg>
+            {% endif %}
           </div>
-          <div class="drop__price">42€</div>
-        </div>
-      </article>
 
-      <article class="drop">
-        <span class="drop__badge">JUST IN</span>
-        <span class="drop__date mono">22·05·26</span>
-        <div class="drop__img" style="color:var(--green);">
-          <svg class="cap-svg" style="width:70%;"><use href="#cap-dad"/></svg>
-        </div>
-        <div class="drop__foot">
-          <div>
-            <div class="drop__title">Mousse Dad-Cap</div>
-            <div class="drop__sub">Washed cotton · unisex</div>
+          <div class="drop__foot">
+            <div>
+              <div class="drop__title">{{ product.name }}</div>
+              <div class="drop__sub">{{ product.brand }} · {{ product.category.label() }}</div>
+            </div>
+            <div class="drop__price">{{ product.formattedPrice }}</div>
           </div>
-          <div class="drop__price">29€</div>
-        </div>
-      </article>
-
-      <article class="drop">
-        <span class="drop__badge drop__badge--klein">NEW</span>
-        <span class="drop__date mono">20·05·26</span>
-        <div class="drop__img" style="color:var(--klein);">
-          <svg class="cap-svg" style="width:70%;"><use href="#cap-trk"/></svg>
-        </div>
-        <div class="drop__foot">
-          <div>
-            <div class="drop__title">Trucker Lilac Mesh</div>
-            <div class="drop__sub">Snap-back ajustable</div>
-          </div>
-          <div class="drop__price">34€</div>
-        </div>
-      </article>
-
-      <article class="drop">
-        <span class="drop__badge drop__badge--coral">+ STOCK BAS</span>
-        <span class="drop__date mono">18·05·26</span>
-        <div class="drop__img" style="color:var(--coral);">
-          <svg class="cap-svg" style="width:70%;"><use href="#cap-buc"/></svg>
-        </div>
-        <div class="drop__foot">
-          <div>
-            <div class="drop__title">Bucket Coral Wave</div>
-            <div class="drop__sub">Reversible · 100% coton</div>
-          </div>
-          <div class="drop__price">38€</div>
-        </div>
-      </article>
+        </article>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -318,42 +268,17 @@
       <p class="mono" style="max-width:340px; font-size:12px; text-transform:uppercase; opacity:.7;">Navigation rapide · clique le type pour filtrer le catalogue complet.</p>
     </div>
 
+    {% set catColors = ['var(--klein)', 'var(--ink)', 'var(--coral)', 'var(--green)', 'var(--klein)', 'var(--coral)'] %}
     <div class="cats">
-      <a href="#" class="cat">
-        <span class="cat__count">142 modèles</span>
-        <div class="cat__icon" style="color:var(--klein);">
-          <svg style="width:80%; max-width:160px;"><use href="#cap-snap"/></svg>
-        </div>
-        <div class="cat__name">Snapback</div>
-      </a>
-      <a href="#" class="cat">
-        <span class="cat__count">88 modèles</span>
-        <div class="cat__icon" style="color:var(--ink);">
-          <svg style="width:80%; max-width:160px;"><use href="#cap-fit"/></svg>
-        </div>
-        <div class="cat__name">Fitted</div>
-      </a>
-      <a href="#" class="cat">
-        <span class="cat__count">66 modèles</span>
-        <div class="cat__icon" style="color:var(--coral);">
-          <svg style="width:80%; max-width:160px;"><use href="#cap-dad"/></svg>
-        </div>
-        <div class="cat__name">Dad Cap</div>
-      </a>
-      <a href="#" class="cat">
-        <span class="cat__count">52 modèles</span>
-        <div class="cat__icon" style="color:var(--green);">
-          <svg style="width:80%; max-width:160px;"><use href="#cap-trk"/></svg>
-        </div>
-        <div class="cat__name">Trucker</div>
-      </a>
-      <a href="#" class="cat">
-        <span class="cat__count">40 modèles</span>
-        <div class="cat__icon" style="color:var(--klein);">
-          <svg style="width:80%; max-width:160px;"><use href="#cap-buc"/></svg>
-        </div>
-        <div class="cat__name">Bucket</div>
-      </a>
+      {% for cat in categories %}
+        <a href="#" class="cat">
+          <span class="cat__count">{{ cat.count() }} modèles</span>
+          <div class="cat__icon" style="color:{{ catColors[loop.index0 % 6] }};">
+            <svg style="width:80%; max-width:160px;"><use href="#{{ cat.svgId() }}"/></svg>
+          </div>
+          <div class="cat__name">{{ cat.label() }}</div>
+        </a>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -372,74 +297,30 @@
       </div>
     </div>
 
+    {% set pastelBgs = ['var(--pastel-blue)', 'var(--pastel-red)', 'var(--pastel-green)', 'var(--pastel-yellow)'] %}
     <div class="bestsellers">
-      <article class="product">
-        <div class="product__top">
-          <div class="product__bg" style="background:var(--pastel-blue); color:var(--klein);">
-            <svg class="product__img"><use href="#cap-snap"/></svg>
+      {% for product in bestsellers %}
+        <article class="product">
+          <div class="product__top">
+            <div class="product__bg" style="background:{{ pastelBgs[loop.index0 % 4] }};">
+              {% if product.imageUrl %}
+                <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="product__img product__img--photo" />
+              {% else %}
+                <svg class="product__img"><use href="#{{ product.category.svgId() }}"/></svg>
+              {% endif %}
+            </div>
+            <span class="product__heat">🔥 +{{ product.soldCount }} vendus</span>
           </div>
-          <span class="product__heat">🔥 +482 vendus</span>
-        </div>
-        <div class="product__meta">
-          <div>
-            <div class="product__name">Klein Hit Snapback</div>
-            <div class="product__brand">CapShop Studio</div>
+          <div class="product__meta">
+            <div>
+              <div class="product__name">{{ product.name }}</div>
+              <div class="product__brand">{{ product.brand }}</div>
+            </div>
+            <div class="product__price">{{ product.formattedPrice }}</div>
           </div>
-          <div class="product__price">39€</div>
-        </div>
-        <button class="product__add" data-add>Ajouter au panier +</button>
-      </article>
-
-      <article class="product">
-        <div class="product__top">
-          <div class="product__bg" style="background:var(--pastel-red); color:var(--coral);">
-            <svg class="product__img"><use href="#cap-fit"/></svg>
-          </div>
-          <span class="product__heat">🔥 +318 vendus</span>
-        </div>
-        <div class="product__meta">
-          <div>
-            <div class="product__name">Coral Run Fitted</div>
-            <div class="product__brand">Atelier 47</div>
-          </div>
-          <div class="product__price">42€</div>
-        </div>
-        <button class="product__add" data-add>Ajouter au panier +</button>
-      </article>
-
-      <article class="product">
-        <div class="product__top">
-          <div class="product__bg" style="background:var(--pastel-green); color:var(--green);">
-            <svg class="product__img"><use href="#cap-dad"/></svg>
-          </div>
-          <span class="product__heat">🔥 +267 vendus</span>
-        </div>
-        <div class="product__meta">
-          <div>
-            <div class="product__name">Sauge Washed Dad</div>
-            <div class="product__brand">Maison Flex</div>
-          </div>
-          <div class="product__price">29€</div>
-        </div>
-        <button class="product__add" data-add>Ajouter au panier +</button>
-      </article>
-
-      <article class="product">
-        <div class="product__top">
-          <div class="product__bg" style="background:var(--pastel-yellow); color:var(--ink);">
-            <svg class="product__img"><use href="#cap-buc"/></svg>
-          </div>
-          <span class="product__heat">🔥 +201 vendus</span>
-        </div>
-        <div class="product__meta">
-          <div>
-            <div class="product__name">Soleil Bucket Hat</div>
-            <div class="product__brand">Plage·Co</div>
-          </div>
-          <div class="product__price">35€</div>
-        </div>
-        <button class="product__add" data-add>Ajouter au panier +</button>
-      </article>
+          <button class="product__add" data-add data-id="{{ product.id }}">Ajouter au panier +</button>
+        </article>
+      {% endfor %}
     </div>
   </div>
 </section>
