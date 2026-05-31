@@ -351,6 +351,18 @@ img { max-width: 100%; display: block; }
 /* cap SVG container */
 .cap-svg { width: 78%; max-width: 280px; }
 
+/* hero stage — real product photos */
+.stage-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .35s ease;
+}
+.stage-card:hover .stage-img { transform: scale(1.06); }
+
 /* ───── Drops grid ───── */
 .drops {
   display: grid;
