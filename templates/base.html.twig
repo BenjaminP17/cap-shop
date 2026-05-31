@@ -12,6 +12,10 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        <script>
+            // Rend le cart_count disponible avant le JS module (AssetMapper)
+            window.__cartCount = {{ cart_count ?? 0 }};
+        </script>
 
         {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
         {% if frankenphpHotReload %}
