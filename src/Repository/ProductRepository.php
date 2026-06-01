@@ -40,6 +40,26 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBySlug(string $slug): ?Product
+    {
+        return $this->findOneBy(['slug' => $slug, 'isActive' => true]);
+    }
+
+    /** 4 produits de la même catégorie, hors produit courant */
+    public function findRelated(Product $product, int $limit = 4): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.isActive = true')
+            ->andWhere('p.category = :cat')
+            ->andWhere('p.id != :id')
+            ->setParameter('cat', $product->getCategory()->value)
+            ->setParameter('id', $product->getId())
+            ->orderBy('p.soldCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     /** Produits par catégorie */
     public function findByCategory(Category $category, int $limit = 20): array
     {

@@ -1,0 +1,291 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} · CapShop{% endblock %}
+
+{% block body %}
+
+{# ── SVG symbols (needed for fallback + related cards) ── #}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cap-snap" viewBox="0 0 200 130">
+      <path d="M20 92 C 22 50, 60 18, 100 18 C 140 18, 178 50, 180 92 L 175 96 L 25 96 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M18 92 L 196 92 L 196 110 L 18 110 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100 26 L 100 90" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="3 4"/>
+      <circle cx="100" cy="28" r="3" fill="#0D0D0D"/>
+    </symbol>
+    <symbol id="cap-fit" viewBox="0 0 200 130">
+      <path d="M28 88 C 30 48, 64 18, 100 18 C 136 18, 170 48, 172 88 L 168 92 L 32 92 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M14 96 C 50 84, 150 84, 186 96 L 186 108 C 150 100, 50 100, 14 108 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="100" cy="28" r="3" fill="#0D0D0D"/>
+    </symbol>
+    <symbol id="cap-dad" viewBox="0 0 200 130">
+      <path d="M30 90 C 34 52, 66 24, 100 24 C 134 24, 166 52, 170 90 L 168 94 L 32 94 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M20 96 C 56 86, 144 86, 180 96 L 180 106 C 144 96, 56 96, 20 106 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M58 78 H 142" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="4 4"/>
+    </symbol>
+    <symbol id="cap-trk" viewBox="0 0 200 130">
+      <path d="M22 90 C 26 50, 62 20, 100 20 C 138 20, 174 50, 178 90 L 174 94 L 26 94 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M18 94 L 182 94 L 182 110 L 18 110 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <g stroke="#0D0D0D" stroke-width="1.6" opacity="0.7">
+        <line x1="100" y1="32" x2="100" y2="90"/><line x1="120" y1="34" x2="120" y2="90"/>
+        <line x1="140" y1="44" x2="140" y2="90"/><line x1="80" y1="34" x2="80" y2="90"/>
+        <line x1="60" y1="44" x2="60" y2="90"/><line x1="35" y1="62" x2="170" y2="62"/>
+        <line x1="35" y1="78" x2="170" y2="78"/>
+      </g>
+    </symbol>
+    <symbol id="cap-buc" viewBox="0 0 200 140">
+      <path d="M40 36 H 160 V 76 H 40 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M16 76 C 50 70, 150 70, 184 76 L 178 104 C 150 100, 50 100, 22 104 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <line x1="40" y1="56" x2="160" y2="56" stroke="#0D0D0D" stroke-width="2" stroke-dasharray="3 4"/>
+    </symbol>
+    <symbol id="cap-5p" viewBox="0 0 200 130">
+      <path d="M24 88 C 26 50, 60 22, 100 22 C 140 22, 174 50, 176 88 L 172 92 L 28 92 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M14 96 C 50 84, 150 84, 186 96 L 186 108 C 150 98, 50 98, 14 108 Z" fill="currentColor" stroke="#0D0D0D" stroke-width="3" stroke-linejoin="round"/>
+      <g stroke="#0D0D0D" stroke-width="2" fill="none">
+        <line x1="62" y1="34" x2="62" y2="92"/><line x1="138" y1="34" x2="138" y2="92"/>
+        <line x1="100" y1="22" x2="100" y2="92"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+{# ── Nav ── #}
+<div class="announce" aria-label="Annonces">
+  <div class="announce__track">
+    <span>
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+    <span aria-hidden="true">
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="{{ path('app_home') }}" class="logo">
+      <span class="logo__dot"></span>CAP·SHOP
+    </a>
+    <div class="nav__links">
+      <a href="{{ path('app_home') }}#drops">Drops</a>
+      <a href="{{ path('app_home') }}#cats">Catégories</a>
+      <a href="{{ path('app_home') }}#best">Bestsellers</a>
+      <a href="{{ path('app_home') }}#collab">Collabs</a>
+      <a href="{{ path('app_home') }}#custom">Custom</a>
+      <a href="{{ path('app_home') }}#look">Lookbook</a>
+    </div>
+    <div class="nav__right">
+      <div class="search">
+        <span aria-hidden="true">⌕</span>
+        <input placeholder="Cherche une casquette…" />
+        <span style="opacity:.5">⌘K</span>
+      </div>
+      <button class="icon-btn" aria-label="Compte">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c0-4 3.5-6.5 7.5-6.5s7.5 2.5 7.5 6.5"/></svg>
+      </button>
+      <a href="{{ path('cart_index') }}" class="icon-btn" aria-label="Panier">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 7h14l-1.5 11.5a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge" id="cartBadge">{{ cart_count }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+{# ── Breadcrumb ── #}
+<div style="background: var(--surface); border-bottom: var(--border);">
+  <div class="container" style="padding-top:14px; padding-bottom:14px;">
+    <nav class="mono" style="font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:flex; gap:8px; align-items:center; opacity:.7;">
+      <a href="{{ path('app_home') }}">Accueil</a>
+      <span>›</span>
+      <a href="{{ path('app_home') }}#cats">{{ product.category.label() }}</a>
+      <span>›</span>
+      <span>{{ product.name }}</span>
+    </nav>
+  </div>
+</div>
+
+{# ── Fiche produit ── #}
+<main style="background: var(--bg); border-bottom: var(--border-thick);">
+  <div class="container" style="padding-top:60px; padding-bottom:70px;">
+    <div class="product-detail">
+
+      {# ── Visuel ── #}
+      <div class="product-detail__visual">
+        <div class="product-detail__img-wrap">
+          {% if product.badge %}
+            <span class="drop__badge {{ product.badge.cssClass() }}" style="z-index:2; top:18px; left:18px;">
+              {{ product.badge.value }}
+            </span>
+          {% endif %}
+
+          {% if product.imageUrl %}
+            <img src="{{ product.imageUrl }}" alt="{{ product.name }}" class="product-detail__img" />
+          {% else %}
+            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--klein);">
+              <svg style="width:60%; max-width:320px;"><use href="#{{ product.category.svgId() }}"/></svg>
+            </div>
+          {% endif %}
+        </div>
+
+        {# Garanties rapides sous l'image #}
+        <div class="product-detail__badges">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 16V6h13v10"/><path d="M16 9h4l1 3v4h-5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg> Livraison 24h</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12a8 8 0 1 1 3 6"/><path d="M4 18v-5h5"/></svg> Retours 30j</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="6" width="16" height="11" rx="1"/><path d="M4 10h16"/></svg> Paiement sécurisé</span>
+        </div>
+      </div>
+
+      {# ── Infos + CTA ── #}
+      <div class="product-detail__info">
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+          <span class="sec-eyebrow">{{ product.category.label() }}</span>
+          {% if product.brand %}
+            <span class="mono" style="font-size:12px; padding:5px 10px; border:var(--border); text-transform:uppercase; letter-spacing:.06em;">{{ product.brand }}</span>
+          {% endif %}
+        </div>
+
+        <h1 style="font-family:'Archivo Black',sans-serif; font-size:clamp(32px,5vw,56px); text-transform:uppercase; line-height:.95; letter-spacing:-.02em;">
+          {{ product.name }}
+        </h1>
+
+        <div style="display:flex; align-items:center; gap:16px; margin-top:20px; flex-wrap:wrap;">
+          <span style="font-family:'Archivo Black',sans-serif; font-size:40px; line-height:1;">
+            {{ product.formattedPrice }}
+          </span>
+          {% if product.soldCount > 0 %}
+            <span style="background:var(--pastel-red); border:var(--border); padding:4px 10px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase;">
+              🔥 {{ product.soldCount }} vendus
+            </span>
+          {% endif %}
+        </div>
+
+        {% if product.description %}
+          <p style="margin-top:22px; font-size:16px; line-height:1.6; max-width:480px; border-left:3px solid var(--ink); padding-left:16px;">
+            {{ product.description }}
+          </p>
+        {% endif %}
+
+        {# Stock #}
+        <div style="margin-top:22px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; display:flex; align-items:center; gap:10px;">
+          {% if product.stock > 10 %}
+            <span style="width:10px; height:10px; background:var(--green); border-radius:50%; border:var(--border); display:inline-block;"></span>
+            En stock — {{ product.stock }} disponibles
+          {% elseif product.stock > 0 %}
+            <span style="width:10px; height:10px; background:var(--coral); border-radius:50%; border:var(--border); display:inline-block;"></span>
+            Plus que {{ product.stock }} en stock !
+          {% else %}
+            <span style="width:10px; height:10px; background:var(--ink); border-radius:50%; border:var(--border); display:inline-block;"></span>
+            Rupture de stock
+          {% endif %}
+        </div>
+
+        {# Drop date #}
+        {% if product.droppedAt %}
+          <div class="mono" style="font-size:11px; text-transform:uppercase; opacity:.6; margin-top:10px; letter-spacing:.06em;">
+            Arrivée le {{ product.droppedAt|date('d/m/Y') }}
+          </div>
+        {% endif %}
+
+        {# CTA #}
+        <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+          {% if product.stock > 0 %}
+            <button
+              class="btn btn--klein"
+              style="font-size:15px; padding:16px 28px;"
+              data-add
+              data-id="{{ product.id }}"
+              id="mainAddBtn"
+            >
+              Ajouter au panier +
+            </button>
+          {% else %}
+            <button class="btn" style="opacity:.5; cursor:not-allowed;" disabled>
+              Rupture de stock
+            </button>
+          {% endif %}
+          <a href="{{ path('cart_index') }}" class="btn btn--ghost">
+            Voir le panier →
+          </a>
+        </div>
+
+        {# Confirmation ajout #}
+        <div id="addConfirm" style="display:none; margin-top:16px; padding:12px 16px; background:var(--pastel-green); border:var(--border); font-family:'Space Mono',monospace; font-size:13px; text-transform:uppercase;">
+          ✓ Ajouté au panier —
+          <a href="{{ path('cart_index') }}" style="color:var(--klein); text-decoration:underline;">Voir le panier</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+{# ── Produits similaires ── #}
+{% if related|length > 0 %}
+<section class="section" style="background:var(--surface);">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="sec-eyebrow">↗ Dans la même catégorie</span>
+        <h2 class="sec-title">Tu pourrais<br/>aussi <span class="accent">aimer.</span></h2>
+      </div>
+      <a href="{{ path('app_home') }}#cats" class="btn btn--ghost">Voir tout →</a>
+    </div>
+
+    <div class="bestsellers">
+      {% for p in related %}
+        <article class="product">
+          <a href="{{ path('product_show', {slug: p.slug}) }}" style="display:contents;">
+            <div class="product__top">
+              <div class="product__bg" style="background:var(--pastel-blue);">
+                {% if p.imageUrl %}
+                  <img src="{{ p.imageUrl }}" alt="{{ p.name }}" class="product__img product__img--photo" />
+                {% else %}
+                  <svg class="product__img" style="color:var(--klein);"><use href="#{{ p.category.svgId() }}"/></svg>
+                {% endif %}
+              </div>
+              {% if p.soldCount > 0 %}
+                <span class="product__heat">🔥 +{{ p.soldCount }} vendus</span>
+              {% endif %}
+            </div>
+          </a>
+          <div class="product__meta">
+            <div>
+              <div class="product__name">{{ p.name }}</div>
+              <div class="product__brand">{{ p.brand }}</div>
+            </div>
+            <div class="product__price">{{ p.formattedPrice }}</div>
+          </div>
+          <button class="product__add" data-add data-id="{{ p.id }}">Ajouter au panier +</button>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── Footer minimal ── #}
+<footer class="footer" style="padding: 30px 0;">
+  <div class="footer__inner">
+    <div class="footer__bot" style="opacity:1; border-top:none;">
+      <div>© 2026 CAP·SHOP</div>
+      <div style="display:flex; gap:20px;">
+        <a href="{{ path('app_home') }}" style="color:var(--yellow); font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase;">← Accueil</a>
+        <a href="{{ path('cart_index') }}" style="color:var(--yellow); font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase;">🛒 Panier ({{ cart_count }})</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+{% endblock %}

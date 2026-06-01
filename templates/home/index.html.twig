@@ -231,6 +231,7 @@
     <div class="drops">
       {% for product in recentDrops %}
         <article class="drop">
+          <a href="{{ path('product_show', {slug: product.slug}) }}" class="drop__link" aria-label="Voir {{ product.name }}"></a>
           {% if product.badge %}
             <span class="drop__badge {{ product.badge.cssClass() }}">{{ product.badge.value }}</span>
           {% endif %}
@@ -301,6 +302,7 @@
     <div class="bestsellers">
       {% for product in bestsellers %}
         <article class="product">
+          <a href="{{ path('product_show', {slug: product.slug}) }}" class="product__link" aria-label="Voir {{ product.name }}"></a>
           <div class="product__top">
             <div class="product__bg" style="background:{{ pastelBgs[loop.index0 % 4] }};">
               {% if product.imageUrl %}
