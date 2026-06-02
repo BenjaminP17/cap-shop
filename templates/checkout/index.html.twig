@@ -1,0 +1,276 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande · CapShop{% endblock %}
+
+{% block body %}
+
+<div class="announce" aria-label="Annonces">
+  <div class="announce__track">
+    <span>
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+    <span aria-hidden="true">
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">CODE <b style="color:var(--coral)">SPRING26</b> · −15% SUR TOUT</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="{{ path('app_home') }}" class="logo">
+      <span class="logo__dot"></span>
+      CAP·SHOP
+    </a>
+    <div class="nav__links">
+      <a href="{{ path('app_home') }}#drops">Drops</a>
+      <a href="{{ path('app_home') }}#cats">Catégories</a>
+      <a href="{{ path('app_home') }}#best">Bestsellers</a>
+    </div>
+    <div class="nav__right">
+      <a href="{{ path('cart_index') }}" class="icon-btn" aria-label="Panier">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 7h14l-1.5 11.5a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge" id="cartBadge">{{ cart_count }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main style="min-height: 70vh; background: var(--surface); border-bottom: var(--border-thick);">
+  <div class="container" style="padding-top: 60px; padding-bottom: 80px;">
+
+    {# Étapes #}
+    <div class="checkout-steps">
+      <span class="checkout-step checkout-step--done">1 · Panier</span>
+      <span class="checkout-step__sep">→</span>
+      <span class="checkout-step checkout-step--active">2 · Livraison & paiement</span>
+      <span class="checkout-step__sep">→</span>
+      <span class="checkout-step checkout-step--next">3 · Confirmation</span>
+    </div>
+
+    <div style="margin-bottom: 36px; margin-top: 32px;">
+      <span class="sec-eyebrow">Commande</span>
+      <h1 class="sec-title" style="margin-top: 12px;">
+        Livraison &amp; <span class="accent-c">Paiement</span>
+      </h1>
+      <p style="font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; opacity:.5; margin-top:8px;">
+        ⚠ Boutique fictive — aucune donnée n'est transmise ni stockée
+      </p>
+    </div>
+
+    <form method="post" action="{{ path('checkout_process') }}" id="checkoutForm" class="checkout-grid" novalidate>
+
+      {# ── Colonne gauche : Livraison + Paiement ── #}
+      <div>
+
+        {# Livraison #}
+        <div class="checkout-block">
+          <div class="checkout-block__head">Adresse de livraison</div>
+
+          <div class="form-row form-row--2">
+            <div class="form-field">
+              <label class="form-label" for="firstName">Prénom</label>
+              <input class="form-input" type="text" id="firstName" name="first_name" placeholder="Jean" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="lastName">Nom</label>
+              <input class="form-input" type="text" id="lastName" name="last_name" placeholder="Dupont" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="email">E-mail</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="jean@exemple.fr" required autocomplete="email">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="address">Adresse</label>
+            <input class="form-input" type="text" id="address" name="address" placeholder="12 rue de la Casquette" required autocomplete="street-address">
+          </div>
+
+          <div class="form-row form-row--2">
+            <div class="form-field">
+              <label class="form-label" for="zip">Code postal</label>
+              <input class="form-input" type="text" id="zip" name="zip" placeholder="75001" required autocomplete="postal-code" maxlength="5" pattern="\d{5}">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="city">Ville</label>
+              <input class="form-input" type="text" id="city" name="city" placeholder="Paris" required autocomplete="address-level2">
+            </div>
+          </div>
+        </div>
+
+        {# Paiement fictif #}
+        <div class="checkout-block" style="margin-top: 20px;">
+          <div class="checkout-block__head">
+            Paiement
+            <span class="checkout-badge-fake">FICTIF</span>
+          </div>
+
+          <div class="card-preview" id="cardPreview" aria-hidden="true">
+            <div class="card-preview__chip"></div>
+            <div class="card-preview__number" id="cardPreviewNumber">•••• •••• •••• ••••</div>
+            <div class="card-preview__footer">
+              <div>
+                <div class="card-preview__label">Titulaire</div>
+                <div class="card-preview__value" id="cardPreviewName">VOTRE NOM</div>
+              </div>
+              <div style="text-align:right">
+                <div class="card-preview__label">Expire</div>
+                <div class="card-preview__value" id="cardPreviewExpiry">MM/AA</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="cardName">Nom sur la carte</label>
+            <input class="form-input" type="text" id="cardName" name="card_name" placeholder="JEAN DUPONT" required autocomplete="cc-name"
+                   style="text-transform:uppercase;">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="cardNumber">Numéro de carte</label>
+            <div style="position:relative;">
+              <input class="form-input" type="text" id="cardNumber" name="card_number"
+                     placeholder="1234 5678 9012 3456" required autocomplete="cc-number"
+                     maxlength="19" inputmode="numeric">
+              <span class="card-type-icon" id="cardTypeIcon" aria-hidden="true">💳</span>
+            </div>
+          </div>
+
+          <div class="form-row form-row--2">
+            <div class="form-field">
+              <label class="form-label" for="cardExpiry">Date d'expiration</label>
+              <input class="form-input" type="text" id="cardExpiry" name="card_expiry"
+                     placeholder="MM/AA" required autocomplete="cc-exp" maxlength="5">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="cardCvv">CVV</label>
+              <input class="form-input" type="text" id="cardCvv" name="card_cvv"
+                     placeholder="•••" required autocomplete="cc-csc" maxlength="4" inputmode="numeric">
+            </div>
+          </div>
+
+          <p style="font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; opacity:.45; margin-top: 12px; line-height: 1.6;">
+            🔒 Simulation — aucune donnée bancaire n'est enregistrée ni transmise. Saisissez n'importe quel numéro.
+          </p>
+        </div>
+
+      </div>
+
+      {# ── Colonne droite : récap ── #}
+      <aside class="cart-summary" style="top: 100px;">
+        <div style="font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em; opacity:.6; margin-bottom:16px;">Récapitulatif</div>
+
+        {% for item in items %}
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; padding: 8px 0; border-bottom: 1px solid var(--ink); opacity:.85;">
+            <span style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; flex:1; margin-right:8px;">
+              {{ item.product.name }}
+              <span style="opacity:.5;">×{{ item.quantity }}</span>
+            </span>
+            <span style="font-family:'Archivo Black',sans-serif; font-size:13px; white-space:nowrap;">
+              {{ '%s €'|format(item.subtotal|number_format(2, ',', ' ')) }}
+            </span>
+          </div>
+        {% endfor %}
+
+        <div class="cart-summary__line" style="margin-top:12px;">
+          <span>Sous-total</span>
+          <span>{{ '%s €'|format(total|number_format(2, ',', ' ')) }}</span>
+        </div>
+        <div class="cart-summary__line">
+          <span>Livraison</span>
+          <span style="color:var(--green);">
+            {% if total >= 60 %}Gratuite{% else %}4,90 €{% endif %}
+          </span>
+        </div>
+        <div class="cart-summary__line cart-summary__line--total">
+          <span>Total</span>
+          <span>
+            {% set shipping = total >= 60 ? 0 : 4.90 %}
+            {{ '%s €'|format((total + shipping)|number_format(2, ',', ' ')) }}
+          </span>
+        </div>
+
+        <button type="submit" class="btn btn--klein" style="width:100%; justify-content:center; margin-top:20px;" id="submitBtn">
+          Payer →
+        </button>
+
+        <a href="{{ path('cart_index') }}" class="btn btn--ghost" style="width:100%; justify-content:center; margin-top:10px; font-size:11px;">
+          ← Modifier le panier
+        </a>
+
+        <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; opacity:.6;">
+          <span>🔒 Paiement fictif</span>
+          <span>↩ Retours 30j</span>
+        </div>
+      </aside>
+
+    </form>
+
+  </div>
+</main>
+
+<footer class="footer" style="padding: 30px 0;">
+  <div class="footer__inner">
+    <div class="footer__bot" style="opacity:1; border-top: none;">
+      <div>© 2026 CAP·SHOP</div>
+      <a href="{{ path('app_home') }}" style="color:var(--yellow); font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase;">← Retour à la boutique</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+// Formatage numéro de carte
+const numInput  = document.getElementById('cardNumber');
+const expInput  = document.getElementById('cardExpiry');
+const nameInput = document.getElementById('cardName');
+
+const prevNum    = document.getElementById('cardPreviewNumber');
+const prevExpiry = document.getElementById('cardPreviewExpiry');
+const prevName   = document.getElementById('cardPreviewName');
+const typeIcon   = document.getElementById('cardTypeIcon');
+
+numInput.addEventListener('input', () => {
+  let v = numInput.value.replace(/\D/g, '').slice(0, 16);
+  numInput.value = v.replace(/(.{4})/g, '$1 ').trim();
+  const display = v.padEnd(16, '•').replace(/(.{4})/g, '$1 ').trim();
+  prevNum.textContent = display || '•••• •••• •••• ••••';
+  typeIcon.textContent = v.startsWith('4') ? '💳' : v.startsWith('5') ? '💳' : '💳';
+});
+
+expInput.addEventListener('input', () => {
+  let v = expInput.value.replace(/\D/g, '').slice(0, 4);
+  if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+  expInput.value = v;
+  prevExpiry.textContent = v || 'MM/AA';
+});
+
+nameInput.addEventListener('input', () => {
+  const val = nameInput.value.toUpperCase() || 'VOTRE NOM';
+  nameInput.value = nameInput.value.toUpperCase();
+  prevName.textContent = val;
+});
+
+// Simulation paiement avec loader
+const form      = document.getElementById('checkoutForm');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', (e) => {
+  if (!form.checkValidity()) return;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Traitement en cours…';
+  submitBtn.style.opacity = '.7';
+});
+</script>
+
+{% endblock %}

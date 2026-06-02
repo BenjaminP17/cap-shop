@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande confirmée · CapShop{% endblock %}
+
+{% block body %}
+
+<div class="announce" aria-label="Annonces">
+  <div class="announce__track">
+    <span>
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">MERCI POUR VOTRE COMMANDE !</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+    <span aria-hidden="true">
+      <em style="font-style:normal">▶ LIVRAISON 24H GRATUITE DÈS 60€</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">MERCI POUR VOTRE COMMANDE !</em>
+      <em class="announce__dot"></em>
+      <em style="font-style:normal">RETOURS GRATUITS 30 JOURS</em>
+      <em class="announce__dot"></em>
+    </span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="{{ path('app_home') }}" class="logo">
+      <span class="logo__dot"></span>
+      CAP·SHOP
+    </a>
+    <div class="nav__links">
+      <a href="{{ path('app_home') }}#drops">Drops</a>
+      <a href="{{ path('app_home') }}#cats">Catégories</a>
+    </div>
+    <div class="nav__right">
+      <a href="{{ path('cart_index') }}" class="icon-btn" aria-label="Panier">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 7h14l-1.5 11.5a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge" id="cartBadge">{{ cart_count }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main style="min-height: 70vh; background: var(--surface); border-bottom: var(--border-thick);">
+  <div class="container" style="padding-top: 60px; padding-bottom: 80px;">
+
+    {# Étapes #}
+    <div class="checkout-steps">
+      <span class="checkout-step checkout-step--done">1 · Panier</span>
+      <span class="checkout-step__sep">→</span>
+      <span class="checkout-step checkout-step--done">2 · Livraison & paiement</span>
+      <span class="checkout-step__sep">→</span>
+      <span class="checkout-step checkout-step--active">3 · Confirmation</span>
+    </div>
+
+    {# Bandeau succès #}
+    <div class="confirm-hero">
+      <div class="confirm-hero__icon">🎉</div>
+      <div>
+        <h1 class="sec-title" style="margin: 0 0 8px;">
+          Commande <span class="accent-y">confirmée !</span>
+        </h1>
+        <p style="font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; opacity:.6; margin:0;">
+          Merci pour ton achat (fictif) chez CAP·SHOP
+        </p>
+      </div>
+    </div>
+
+    <div class="confirm-layout">
+
+      {# Récap commande #}
+      <div>
+        <div class="checkout-block">
+          <div class="checkout-block__head">
+            Commande <span style="color:var(--klein);">#{{ order.number }}</span>
+          </div>
+
+          {% for item in order.items %}
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 0; border-bottom: 1px solid var(--ink);">
+              <div>
+                <div style="font-family:'Archivo Black',sans-serif; font-size:14px; text-transform:uppercase;">{{ item.name }}</div>
+                {% if item.brand %}
+                  <div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; opacity:.5; margin-top:2px;">{{ item.brand }}</div>
+                {% endif %}
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:'Space Mono',monospace; font-size:12px; opacity:.6;">× {{ item.quantity }}</div>
+                <div style="font-family:'Archivo Black',sans-serif; font-size:14px; margin-top:2px;">
+                  {{ '%s €'|format(item.subtotal|number_format(2, ',', ' ')) }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+          <div style="margin-top: 16px;">
+            <div class="cart-summary__line">
+              <span>Livraison</span>
+              <span style="color:var(--green);">
+                {% if order.shipping == 0 %}Gratuite{% else %}{{ '%s €'|format(order.shipping|number_format(2, ',', ' ')) }}{% endif %}
+              </span>
+            </div>
+            <div class="cart-summary__line cart-summary__line--total">
+              <span>Total payé</span>
+              <span>{{ '%s €'|format(order.total|number_format(2, ',', ' ')) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Infos expédition fictive #}
+      <aside>
+        <div class="checkout-block">
+          <div class="checkout-block__head">Expédition fictive</div>
+          {% if order.email %}
+            <p style="font-family:'Space Mono',monospace; font-size:12px; margin: 0 0 12px;">
+              Un e-mail de confirmation fictif aurait été envoyé à<br>
+              <strong style="color:var(--klein);">{{ order.email }}</strong>
+            </p>
+          {% endif %}
+          <div class="confirm-timeline">
+            <div class="confirm-step confirm-step--done">
+              <div class="confirm-step__dot"></div>
+              <div>
+                <div class="confirm-step__title">Commande reçue</div>
+                <div class="confirm-step__sub">Aujourd'hui</div>
+              </div>
+            </div>
+            <div class="confirm-step confirm-step--pending">
+              <div class="confirm-step__dot"></div>
+              <div>
+                <div class="confirm-step__title">Préparation en cours</div>
+                <div class="confirm-step__sub">Dans 2–4h</div>
+              </div>
+            </div>
+            <div class="confirm-step confirm-step--pending">
+              <div class="confirm-step__dot"></div>
+              <div>
+                <div class="confirm-step__title">Expédié</div>
+                <div class="confirm-step__sub">Demain</div>
+              </div>
+            </div>
+            <div class="confirm-step confirm-step--pending">
+              <div class="confirm-step__dot"></div>
+              <div>
+                <div class="confirm-step__title">Livré</div>
+                <div class="confirm-step__sub">Dans 24h</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 16px; background: var(--pastel-yellow); border: var(--border-thick); font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; line-height: 1.8;">
+          ⚠ Boutique de démonstration<br>
+          Aucune transaction réelle n'a eu lieu.<br>
+          Aucune donnée n'a été stockée.
+        </div>
+
+        <a href="{{ path('app_home') }}" class="btn btn--klein" style="width:100%; justify-content:center; margin-top:20px; display:flex;">
+          Continuer les achats →
+        </a>
+      </aside>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer" style="padding: 30px 0;">
+  <div class="footer__inner">
+    <div class="footer__bot" style="opacity:1; border-top: none;">
+      <div>© 2026 CAP·SHOP</div>
+      <a href="{{ path('app_home') }}" style="color:var(--yellow); font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase;">← Retour à la boutique</a>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}
